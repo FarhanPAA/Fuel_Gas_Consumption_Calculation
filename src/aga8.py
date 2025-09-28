@@ -1,11 +1,11 @@
 import pvtlib
 
 def calculate_gas_properties(
-    p_psig, t_farenheit, N2, CO2, C1, C2, C3, iC4, nC4, iC5, nC5, nC6, nC7, nC8,
+    p_psig, t_fahrenheit, N2, CO2, C1, C2, C3, iC4, nC4, iC5, nC5, nC6, nC7, nC8,
     p_base = 1.0155977, t_base = 15.5555556, method = 'DETAIL'
 ):
     p = (p_psig+14.73)*0.068947
-    t = (t_farenheit-32)*5/9
+    t = (t_fahrenheit-32)*5/9
     
     composition = {
     'N2' : N2, 'CO2' : CO2, 'C1' : C1, 'C2' : C2, 'C3' : C3,

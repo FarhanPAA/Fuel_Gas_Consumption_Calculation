@@ -10,7 +10,7 @@ def calculate(
 ):
 
     if gas_properties_given == False:
-        properties = calculate_gas_properties(p_psig=p, t_farenheit=t, N2=N2, CO2=CO2, C1=C1, C2=C2,C3=C3,
+        properties = calculate_gas_properties(p_psig=p, t_fahrenheit=t, N2=N2, CO2=CO2, C1=C1, C2=C2,C3=C3,
                                         iC4=iC4, nC4=nC4,iC5=iC5, nC5=nC5, nC6=nC6, nC7=nC7, nC8=nC8)
         z_f= properties['z_f']
         z_b= properties['z_b']
