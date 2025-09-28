@@ -3,11 +3,17 @@ from calculation import calculate
 
 st.title('Fuel Gas Consumption Calculation with AGA3')
 
+with st.container(border=True):
+    st.write("Select Measurement Units")
+    pressure_unit = st.selectbox(label= 'Select Pressure Unit', options= ['psi', 'bar', 'kPa'])
+    temperature_unit = st.selectbox(label = 'Select Temperature Unit', options= ['Fahrenheit', 'Celcius'])
+    dp_unit = st.selectbox(label= 'Select Differential Pressure Unit', options= ['mbar', 'mmwc'])
+
 with st.form("main_form"):
     with st.container(border=True):
-        flow_pressure = st.number_input("Enter Pressure in psig")
-        flow_temperature = st.number_input("Enter temperature in Fahrenheit")
-        differential_pressure = st.number_input("Enter differential Pressure in mbar")
+        flow_pressure = st.number_input(f"Enter Pressure in {pressure_unit}")
+        flow_temperature = st.number_input(f"Enter temperature in {temperature_unit} ")
+        differential_pressure = st.number_input(f"Enter differential Pressure in {dp_unit}")
     
     submitted = st.form_submit_button("calculate")
     
