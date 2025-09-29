@@ -102,7 +102,6 @@ def aga3_calculate(
     D0,                          # pipe dia at reference temp (length_unit)
     pressure_tap="upstream",     # 'upstream, 'downstream'
     p_unit = 'psi',              # 'psi', 'bar' 
-    p_type = 'gauge',            # 'gauge' , 'absolute'
     p_atm = 14.73,               # Atmospheric Pressure in choosen unit
     d_p_unit = 'mbar',           # 'mbar', 'inwc'
     t_unit = 'F',                # 'F', 'C', 'K'
@@ -130,8 +129,7 @@ def aga3_calculate(
   else:
     print("Pressure Unit not recognized")
     
-  if p_type == 'gauge':
-    p = p + p_atm
+  p = p + p_atm
     
   if d_p_unit == "mbar":
     d_p = d_p
