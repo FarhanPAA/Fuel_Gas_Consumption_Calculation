@@ -100,8 +100,14 @@ def aga3_calculate(
     M_gas,                       # molecular weight of gas
     d0,                          # orifice dia at reference temp (length_unit)
     D0,                          # pipe dia at reference temp (length_unit)
+    pressure_tap="upstream",     # 'upstream, 'downstream'
+    p_unit = 'psi',              # 'psi', 'bar' 
+    p_type = 'gauge',            # 'gauge' , 'absolute'
+    p_atm = 14.73,               # Atmospheric Pressure in choosen unit
+    d_p_unit = 'mbar',           # 'mbar', 'inwc'
+    t_unit = 'F',                # 'F', 'C', 'K'
     R=0.0831451,                 # ideal gas constant (bar, kg, m, K)
-    p_b=0.0,                     # base pressure in psig
+    p_b=14.73,                   # base pressure in psia
     t_b=60.00,                   # base temperature in F/C/K (follows t_unit conversion rules below)
     k=1.3,                       # isentropic exponent
     mu=0.010268,                 # viscosity in cP
@@ -110,16 +116,29 @@ def aga3_calculate(
     D0_tb=68.00,                 # pipe reference temp (same)
     alpha_d=0.00000889,          # temp coeff of orifice
     alpha_D=0.00000620,          # temp coeff of pipe
-    rho_f= None,                 # flowing density (kg/m3) used if density_given="yes"
-    rho_b= None,                 # base density (kg/m3) used if density_given="yes"
-    density_unit = "lbs/ft3",    # "lbs/ft3", "kg/m3
 
 ):       
-  pressure_tap="upstream"
 
-  p = (p+14.73)*0.0689476 # psig to to bar
-  p_b = (p_b+14.73)*0.0689476 # psig to to bar
-
+  if p_unit == "psi":
+    p = p*0.0689476 # psi to bar
+    p_b = p_b*0.0689476 # psi to bar
+    p_atm = p_atm*0.0689476
+  elif p_unit == "bar":
+    p = p
+    p_b = p_b
+    p_atm = p_atm
+  else:
+    print("Pressure Unit not recognized")
+    
+  if p_type == 'gauge':
+    p = p + p_atm
+    
+  if d_p_unit == "mbar":
+    d_p = d_p
+  elif d_p_unit == "inwc":
+    d_p = d_p*2.4884
+  else:
+    print("Differential Pressure Unit not recognized")
 
   if pressure_tap == "downstream":
     p_u = p + d_p/1000 # d_p is in mbars, p_d is in bar
@@ -128,12 +147,23 @@ def aga3_calculate(
   else:
     print("Pressure tap not recognized")
 
-  t = (t-32)*5/9+273.15
-  t_b = (t_b-32)*5/9+273.15
-  d0_tb = (d0_tb-32)*5/9+273.15
-  D0_tb = (D0_tb-32)*5/9+273.15
-  alpha_D = alpha_D*5/9
-  alpha_d = alpha_d*5/9
+  if t_unit == "K":
+    t = t
+    t_b = t_b
+  elif t_unit == "C":
+    t = t+273.15
+    t_b = t_b+273.15
+    d0_tb = d0_tb+273.15
+    D0_tb = D0_tb+273.15
+  elif t_unit == "F":
+    t = (t-32)*5/9+273.15
+    t_b = (t_b-32)*5/9+273.15
+    d0_tb = (d0_tb-32)*5/9+273.15
+    D0_tb = (D0_tb-32)*5/9+273.15
+    alpha_D = alpha_D*5/9
+    alpha_d = alpha_d*5/9
+  else:
+    print("Temperature Unit not recognized")
 
   if length_unit == "in":
     d0 = d0*25.4
@@ -144,20 +174,9 @@ def aga3_calculate(
   else:
     print("Length Unit not recognized")
 
-  if rho_f is None:
-    # Density at flowing condition (kg/m3)
-    rho_f = (p_u*M_gas)/(Z_f*R*t)
-  elif density_unit == "lbs/ft3":
-    rho_f = rho_f*16.01846337396
-  elif density_unit == "kg/m3":
-    rho_f = rho_f
-  if rho_b is None:
-    # Density at base condition (kg/m3)
-    rho_b = (p_b*M_gas)/(Z_b*R*t_b)
-  elif density_unit == "lbs/ft3":
-    rho_b = rho_b*16.01846337396
-  elif density_unit == "kg/m3":
-    rho_b = rho_b
+  # Density at flowing condition (kg/m3)
+  rho_f = (p_u*M_gas)/(Z_f*R*t)
+  rho_b = (p_b*M_gas)/(Z_b*R*t_b)
 
   d = d0*(1+alpha_d*(t-d0_tb))
   D = D0*(1+alpha_D*(t-D0_tb))
