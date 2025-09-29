@@ -117,24 +117,13 @@ def aga3_calculate(
     alpha_D=0.00000620,          # temp coeff of pipe
 
 ):       
-
-  if p_unit == "psi":
-    p = p*0.0689476 # psi to bar
-    p_b = p_b*0.0689476 # psi to bar
-    p_atm = p_atm*0.0689476
-  elif p_unit == "bar":
-    p = p
-    p_b = p_b
-    p_atm = p_atm
-  else:
-    print("Pressure Unit not recognized")
     
   p = p + p_atm
     
   if d_p_unit == "mbar":
     d_p = d_p
   elif d_p_unit == "inwc":
-    d_p = d_p*2.4884
+    d_p = d_p*2.490889
   else:
     print("Differential Pressure Unit not recognized")
 
