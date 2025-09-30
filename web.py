@@ -25,7 +25,8 @@ with st.form("main_form"):
     submitted = st.form_submit_button("calculate")
     
     if submitted:
-        gas_flow, z_f, z_b = calculate(p=flow_pressure, t= flow_temperature, d_p= differential_pressure, p_atm=atm_pressure,p_unit=pressure_unit, d_p_unit= dp_unit)
+        gas_flow, z_f, z_b = calculate(
+            p=flow_pressure, t= flow_temperature, d_p= differential_pressure, p_atm=atm_pressure,p_unit=pressure_unit, p_b= base_pressure,d_p_unit= dp_unit)
         
         st.write(f"Fuel Gas Flow: {gas_flow:.4f}")
         st.write(f"Flow Compressibility: {z_f}")

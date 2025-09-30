@@ -25,14 +25,21 @@ def calculate(
         z_b = z_b_manual
         molar_mass = molar_mass_manual
     
-    result = aga3_calculate(p=p,t=t,d_p=d_p, p_unit='psi', p_atm=p_atm , p_b=p_b ,d_p_unit=d_p_unit ,Z_f=z_f,Z_b=z_b, M_gas=molar_mass,d0=d0,D0=D0)
+    result = aga3_calculate(p=p,t=t,d_p=d_p, p_atm=p_atm , p_b=p_b ,d_p_unit=d_p_unit ,Z_f=z_f,Z_b=z_b, M_gas=molar_mass,d0=d0,D0=D0)
     
     return result['volumetric_flow'], z_f, z_b
 
+'''
 gas_flow, _, _ = calculate(p=100, t= 70, d_p= 100, p_atm=14.73, p_b=14.73 , p_unit='psi', d_p_unit= 'mbar')
 
 print(gas_flow)
 
 gas_flow, _, _ = calculate(p=100*PSI_TO_BAR, t= 70, d_p= 100, p_atm=14.73*PSI_TO_BAR, p_b=14.73*PSI_TO_BAR, p_unit='bar', d_p_unit= 'mbar')
+
+print(gas_flow)
+
+'''
+
+gas_flow,_,_ = calculate(p=6.89, t= 70, d_p= 100, p_atm=1.01,p_unit='bar', p_b= 1.01, d_p_unit= 'mbar')
 
 print(gas_flow)

@@ -1,5 +1,7 @@
 import math
 
+PSI_TO_BAR = 0.06894757293178308
+
 def flange_tap_cd_constants(D: float, N: float, beta: float):
     """
     Calculate the five AGA-3 discharge-coefficient constants (Cd0 … Cd4)
@@ -101,7 +103,6 @@ def aga3_calculate(
     d0,                          # orifice dia at reference temp (length_unit)
     D0,                          # pipe dia at reference temp (length_unit)
     pressure_tap="upstream",     # 'upstream, 'downstream'
-    p_unit = 'psi',              # 'psi', 'bar' 
     p_atm = 14.73,               # Atmospheric Pressure in choosen unit
     d_p_unit = 'mbar',           # 'mbar', 'inwc'
     t_unit = 'F',                # 'F', 'C', 'K'
@@ -118,7 +119,8 @@ def aga3_calculate(
 
 ):       
     
-  p = p + p_atm
+  p = (p + p_atm)*PSI_TO_BAR
+  p_b =  p_b*PSI_TO_BAR
     
   if d_p_unit == "mbar":
     d_p = d_p
