@@ -95,27 +95,26 @@ def flange_tap_cd(cd_all, F_l, tol = 5e-6, max_iter = 10):
 
 def aga3_calculate(
     p,                           # in psig
-    t,                           # flow temperature in Farenheit
+    t,                           # flow temperature in Celcius
     d_p,                         # differential pressure, in mbar depending on d_p_unit
     Z_f,                         # compressibility at flowing
     Z_b,                         # compressibility at base
     M_gas,                       # molecular weight of gas
     d0,                          # orifice dia at reference temp (length_unit)
     D0,                          # pipe dia at reference temp (length_unit)
+    p_atm,                       # Atmospheric Pressure in psia
+    d_p_unit,                    # 'mbar', 'inwc'
+    p_b,                         # base pressure in psia
+    t_b,                         # base temperature in Celcius
+    d0_tb,                       # orifice reference temp in degree celcius
+    D0_tb,                       # pipe reference temp in degree celcius
+    alpha_d,                     # temp coeff of orifice in degree celcius
+    alpha_D,                     # temp coeff of pipe in degree celcius
     pressure_tap="upstream",     # 'upstream, 'downstream'
-    p_atm = 14.73,               # Atmospheric Pressure in choosen unit
-    d_p_unit = 'mbar',           # 'mbar', 'inwc'
-    t_unit = 'F',                # 'F', 'C', 'K'
     R=0.0831451,                 # ideal gas constant (bar, kg, m, K)
-    p_b=14.73,                   # base pressure in psia
-    t_b=60.00,                   # base temperature in F/C/K (follows t_unit conversion rules below)
     k=1.3,                       # isentropic exponent
     mu=0.010268,                 # viscosity in cP
     length_unit="mm",            # "mm", "in"
-    d0_tb=68.00,                 # orifice reference temp (will be converted like t per your original)
-    D0_tb=68.00,                 # pipe reference temp (same)
-    alpha_d=0.00000889,          # temp coeff of orifice
-    alpha_D=0.00000620,          # temp coeff of pipe
 
 ):       
     
@@ -136,23 +135,10 @@ def aga3_calculate(
   else:
     print("Pressure tap not recognized")
 
-  if t_unit == "K":
-    t = t
-    t_b = t_b
-  elif t_unit == "C":
-    t = t+273.15
-    t_b = t_b+273.15
-    d0_tb = d0_tb+273.15
-    D0_tb = D0_tb+273.15
-  elif t_unit == "F":
-    t = (t-32)*5/9+273.15
-    t_b = (t_b-32)*5/9+273.15
-    d0_tb = (d0_tb-32)*5/9+273.15
-    D0_tb = (D0_tb-32)*5/9+273.15
-    alpha_D = alpha_D*5/9
-    alpha_d = alpha_d*5/9
-  else:
-    print("Temperature Unit not recognized")
+  t = t+273.15
+  t_b = t_b+273.15
+  d0_tb = d0_tb+273.15
+  D0_tb = D0_tb+273.15
 
   if length_unit == "in":
     d0 = d0*25.4
