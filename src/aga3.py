@@ -1,6 +1,8 @@
 import math
 
 PSI_TO_BAR = 0.06894757293178308
+INWC_TO_MBAR = 2.490889
+R=0.0831451                 # ideal gas constant (bar, kg, m, K)
 
 def flange_tap_cd_constants(D: float, N: float, beta: float):
     """
@@ -110,30 +112,26 @@ def aga3_calculate(
     D0_tb,                       # pipe reference temp in degree celcius
     alpha_d,                     # temp coeff of orifice in degree celcius
     alpha_D,                     # temp coeff of pipe in degree celcius
-    pressure_tap="upstream",     # 'upstream, 'downstream'
-    R=0.0831451,                 # ideal gas constant (bar, kg, m, K)
-    k=1.3,                       # isentropic exponent
-    mu=0.010268,                 # viscosity in cP
-    length_unit="mm",            # "mm", "in"
-
+    k,                           # isentropic exponent
+    mu,                          # viscosity in cP
+    length_unit                  # "mm", "in"
 ):       
-    
+  '''
+  The Formulas are implemented assuming pressure to be in absolute bar, temperature in Kelvin,
+  differential pressure in mbar and density in kg/m3. So units are first converted.
+  Different Unit Constants are used to handle unit mismatch
+  '''  
   p = (p + p_atm)*PSI_TO_BAR
   p_b =  p_b*PSI_TO_BAR
     
   if d_p_unit == "mbar":
     d_p = d_p
   elif d_p_unit == "inwc":
-    d_p = d_p*2.490889
+    d_p = d_p*INWC_TO_MBAR
   else:
     print("Differential Pressure Unit not recognized")
 
-  if pressure_tap == "downstream":
-    p_u = p + d_p/1000 # d_p is in mbars, p_d is in bar
-  elif pressure_tap == "upstream":
-    p_u = p
-  else:
-    print("Pressure tap not recognized")
+  p_u = p
 
   t = t+273.15
   t_b = t_b+273.15
@@ -180,10 +178,10 @@ def aga3_calculate(
   qm= F_mass*Cd*Y*F_lp
   qb = F_mass*Cd*Y*F_lp/rho_b
 
-  qbs = qb*35.3147*24/10**6
+  qb_MMSCFD = qb*35.3147*24/10**6 # Converted to MMSCFD Unit
 
   dict = {
-      'volumetric_flow': qbs,
+      'volumetric_flow': qb_MMSCFD,
       'beta': beta,
       'velocity_of_approach_ev': E_v,
       'fluid_expansion_factor_y': Y,

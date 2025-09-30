@@ -11,6 +11,10 @@ def calculate_gas_properties(
     t_base,         # Base Temperature in Celcius
     method = 'DETAIL'
 ):
+    '''
+    calculate_from_PT expcects pressure to be in PSIA and Temperature in degree Celsius,
+    gas composition in percentage
+    '''
     p = (p_psig+p_atm)*PSI_TO_BAR
     p_base = p_base*PSI_TO_BAR 
     
