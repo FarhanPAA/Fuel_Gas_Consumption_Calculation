@@ -5,7 +5,7 @@ INWC_TO_MBAR = 2.490889
 
 def calculate(
     p,t,d_p, p_atm, p_b, p_unit, d_p_unit, t_unit, t_base, pressure_tap,length_unit,              
-    d0, D0, d0_tb, D0_tb, alpha_d,alpha_D, mu, N2, CO2, C1, C2, C3 , iC4 , nC4 , iC5 , nC5 , nC6 , nC7 , nC8, nC9, nC10, H2, O2, CO, H2O, H2S, He, Ar, gas_properties_given = False, z_f_manual = 0.99, z_b_manual = 0.995, molar_mass_manual = 16.83,
+    d0, D0, d0_tb, D0_tb, alpha_d,alpha_D, mu, N2 =0, CO2 = 0, C1 = 0, C2 = 0, C3 = 0 , iC4= 0 , nC4 = 0 , iC5 = 0 , nC5 = 0 , nC6 = 0 , nC7= 0 , nC8= 0, nC9= 0, nC10= 0, H2 = 0, O2 = 0, CO = 0, H2O = 0, H2S = 0, He = 0, Ar = 0, gas_properties_given = False, z_f_manual = 0.99, z_b_manual = 0.995, molar_mass_manual = 16.83,
     k_manual =1.3 
 ):
     if p_unit == 'bar':
