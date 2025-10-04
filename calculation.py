@@ -5,11 +5,8 @@ INWC_TO_MBAR = 2.490889
 
 def calculate(
     p,t,d_p, p_atm, p_b, p_unit, d_p_unit, t_unit, t_base, pressure_tap,length_unit,              
-    d0, D0, d0_tb, D0_tb, alpha_d,alpha_D,              
-    gas_properties_given = False, z_f_manual = 0.99, z_b_manual = 0.995, molar_mass_manual = 16.83,
-    k=1.3, mu=0.010268, 
-    N2 = 0.223, CO2 = 0.198, C1 = 96.284, C2 = 2.210, C3 = 0.624, iC4 = 0.175, nC4 = 0.139, iC5 = 0.064,
-    nC5 = 0.031, nC6 = 0.025, nC7 = 0.022, nC8 = 0.005 
+    d0, D0, d0_tb, D0_tb, alpha_d,alpha_D, mu, N2, CO2, C1, C2, C3 , iC4 , nC4 , iC5 , nC5 , nC6 , nC7 , nC8, nC9, nC10, H2, O2, CO, H2O, H2S, He, Ar, gas_properties_given = False, z_f_manual = 0.99, z_b_manual = 0.995, molar_mass_manual = 16.83,
+    k_manual =1.3 
 ):
     if p_unit == 'bar':
         p = p/PSI_TO_BAR
@@ -32,26 +29,20 @@ def calculate(
     if pressure_tap == 'Upstream':
         p_u = p
 
+    
     if gas_properties_given == False:
         
-        properties = calculate_gas_properties (p_psig=p_u, p_atm= p_atm,p_base=p_b, t=t, t_base=t_base, N2=N2, CO2=CO2, C1=C1, C2=C2,C3=C3,iC4=iC4, nC4=nC4,iC5=iC5, nC5=nC5, nC6=nC6, nC7=nC7, nC8=nC8)
+        properties = calculate_gas_properties (p_psig=p_u, p_atm= p_atm,p_base=p_b, t=t, t_base=t_base, N2=N2, CO2=CO2, C1=C1, C2=C2,C3=C3,iC4=iC4, nC4=nC4,iC5=iC5, nC5=nC5, nC6=nC6, nC7=nC7, nC8=nC8, nC9 = nC9, nC10= nC10, H2 = H2, O2 = O2, CO = CO, H2O = H2O, H2S = H2S, He = He, Ar= Ar)
         z_f= properties['z_f']
         z_b= properties['z_b']
         molar_mass = properties['mm']
+        k= properties['k']
     else:
         z_f = z_f_manual
         z_b = z_b_manual
         molar_mass = molar_mass_manual
+        k= k_manual
     
     result = aga3_calculate(p=p_u,t=t,d_p=d_p, p_atm=p_atm , p_b=p_b ,d_p_unit=d_p_unit, t_b=t_base,  d0=d0, D0=D0, d0_tb = d0_tb, D0_tb = D0_tb, alpha_d = alpha_d, alpha_D = alpha_D ,Z_f=z_f,Z_b=z_b, M_gas=molar_mass, k=k, mu=mu, length_unit=length_unit)
     
-    return result['volumetric_flow'], z_f, z_b
-
-
-gas_flow,_,_ = calculate(p=6.89, t= 70, d_p= 100, p_atm=1.01,p_unit='bar', p_b= 1.01, d_p_unit= 'mbar', t_unit='F', t_base=60, pressure_tap='Upstream')
-
-print(gas_flow)
-
-gas_flow,_,_ = calculate(p=100, t= 70, d_p= 100, p_atm=14.73,p_unit='psi', p_b= 14.73, d_p_unit= 'mbar', t_unit='F', t_base=60, pressure_tap= 'Upstream')
-
-print(gas_flow)
+    return result['volumetric_flow'], z_f, z_b, k

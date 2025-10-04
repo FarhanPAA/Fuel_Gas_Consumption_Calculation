@@ -5,11 +5,10 @@ PSI_TO_BAR = 0.06894757293178308
 def calculate_gas_properties(
     p_psig,         # Upstream Pressure in PSIG
     t,              # Flow temperature in Celcius
-    N2, CO2, C1, C2, C3, iC4, nC4, iC5, nC5, nC6, nC7, nC8,
+    N2, CO2, C1, C2, C3, iC4, nC4, iC5, nC5, nC6, nC7, nC8, nC9, nC10, H2, O2, CO, H2O, H2S, He, Ar,
     p_base,         # Base Pressure in PSIA
     p_atm,          # Atmospheric Pressure in PSIA
     t_base,         # Base Temperature in Celcius
-    method = 'DETAIL'
 ):
     '''
     calculate_from_PT expcects pressure to be in PSIA and Temperature in degree Celsius,
@@ -19,12 +18,15 @@ def calculate_gas_properties(
     p_base = p_base*PSI_TO_BAR 
     
     composition = {
-    'N2' : N2, 'CO2' : CO2, 'C1' : C1, 'C2' : C2, 'C3' : C3,
-    'iC4' : iC4, 'nC4' : nC4, 'iC5' : iC5, 'nC5' : nC5, 
-    'nC6' : nC6, 'nC7' : nC7, 'nC8' : nC8,
+        'N2': N2, 'CO2': CO2, 'C1': C1, 'C2': C2, 'C3': C3,
+        'iC4': iC4, 'nC4': nC4, 'iC5': iC5, 'nC5': nC5,
+        'nC6': nC6, 'nC7': nC7, 'nC8': nC8,
+        'nC9': nC9, 'nC10': nC10,
+        'H2': H2, 'O2': O2, 'CO': CO,
+        'H2O': H2O, 'H2S': H2S,
+        'He': He, 'Ar': Ar,
     }
-    
-    calculator = pvtlib.AGA8(method)
+    calculator = pvtlib.AGA8('DETAIL')
     
     gas_properties_flow = calculator.calculate_from_PT(
         composition=composition,
@@ -41,7 +43,8 @@ def calculate_gas_properties(
     gas_properties = {
         'z_f' : gas_properties_flow['z'],
         'z_b' : gas_properties_base['z'],
-        'mm'  : gas_properties_base['mm']
+        'mm'  : gas_properties_base['mm'],
+        'k'   : gas_properties_flow['kappa']
     }
     
     return gas_properties
