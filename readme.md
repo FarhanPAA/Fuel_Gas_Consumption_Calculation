@@ -5,6 +5,7 @@ Returns base-condition volumetric flow via **AGA-3** detail method.
 If `gas_properties_given = False`, gas properties (`z_f`, `z_b`, `molar_mass`, `k`) are computed from composition via **AGA-8**.
 
 ---
+Python Version Used: 3.13.6
 
 ## Function Summary
 
