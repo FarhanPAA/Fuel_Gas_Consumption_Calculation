@@ -89,6 +89,11 @@ This documentation and any associated calculations are provided **as-is** for en
 A minimal **Streamlit** UI has been built **on top of this `calculate(...)` function** to help test inputs and visualize results.  
 You can wire your fields (pressure/temperature/DP/geometry/composition) to the function and display the returned tuple.
 
+**Live demo:** [aga3calculation.streamlit.app](https://aga3calculation.streamlit.app/)
+
+> **Heads-up:** On Streamlit Community Cloud the app may be sleeping after inactivity.
+> The first load can take ~30–60 seconds to start.
+
 **Quick start:**
 
 ```bash
