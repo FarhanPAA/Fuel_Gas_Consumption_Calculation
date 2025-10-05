@@ -327,7 +327,7 @@ with st.form("main_form", clear_on_submit=False):
         try:
             with st.spinner("Computing AGA-3 flow ..."):
                 if gas_properties_given:
-                    gas_flow, z_f, z_b, k = calculate(
+                    gas_flow, z_f, z_b, k, molar_mass = calculate(
                         p=flow_pressure, t=flow_temperature, d_p=differential_pressure, p_atm=atm_pressure,
                         p_unit=pressure_unit, p_b=base_pressure, d_p_unit=dp_unit, t_unit=t_unit, t_base=base_temp,
                         pressure_tap=pressure_tap, length_unit=length_unit, d0=orifice_dia, D0=pipe_dia,
@@ -336,7 +336,7 @@ with st.form("main_form", clear_on_submit=False):
                         k_manual=k_manual, gas_properties_given=True, mu=mu
                     )
                 else:
-                    gas_flow, z_f, z_b, k = calculate(
+                    gas_flow, z_f, z_b, k, molar_mass = calculate(
                         p=flow_pressure, t=flow_temperature, d_p=differential_pressure, p_atm=atm_pressure,
                         p_unit=pressure_unit, p_b=base_pressure, d_p_unit=dp_unit, t_unit=t_unit, t_base=base_temp,
                         pressure_tap=pressure_tap, length_unit=length_unit, d0=orifice_dia, D0=pipe_dia,
@@ -352,12 +352,28 @@ with st.form("main_form", clear_on_submit=False):
 
             with st.container(border=True):
                 st.subheader("Results")
-                c1, c2, c3, c4 = st.columns(4)
-                c1.metric("Fuel Gas Flow", f"{gas_flow:.4f} MMSCF/D")
-                c2.metric("Fuel Gas Flow", f"{m3_per_hour:,.2f} m³/h")
-                c3.metric("Z (flow)", f"{z_f:.6f}")
-                c4.metric("Z (base)", f"{z_b:.6f}")
 
+                # Row 1
+                r1c1, r1c2 = st.columns(2)
+                with r1c1:
+                    st.metric("Fuel Gas Flow", f"{gas_flow:.4f} MMSCF/D")
+                with r1c2:
+                    st.metric("Fuel Gas Flow", f"{m3_per_hour:,.2f} m³/h")
+
+                if gas_properties_given == False:
+                # Row 2
+                    r2c1, r2c2 = st.columns(2)
+                    with r2c1:
+                        st.metric("Z (flow)", f"{z_f:.6f}")
+                    with r2c2:
+                        st.metric("Z (base)", f"{z_b:.6f}")
+
+                    # Row 3
+                    r3c1, r3c2 = st.columns(2)
+                    with r3c1:
+                        st.metric("k (isentropic exp.)", f"{k:.6f}")
+                    with r3c2:
+                        st.metric("Molar mass", f"{molar_mass:.5f} g/mol")
 
 
         except Exception as e:

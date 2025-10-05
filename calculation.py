@@ -4,9 +4,32 @@ PSI_TO_BAR = 0.06894757293178308
 INWC_TO_MBAR = 2.490889
 
 def calculate(
-    p,t,d_p, p_atm, p_b, p_unit, d_p_unit, t_unit, t_base, pressure_tap,length_unit,              
-    d0, D0, d0_tb, D0_tb, alpha_d,alpha_D, mu, N2 =0, CO2 = 0, C1 = 0, C2 = 0, C3 = 0 , iC4= 0 , nC4 = 0 , iC5 = 0 , nC5 = 0 , nC6 = 0 , nC7= 0 , nC8= 0, nC9= 0, nC10= 0, H2 = 0, O2 = 0, CO = 0, H2O = 0, H2S = 0, He = 0, Ar = 0, gas_properties_given = False, z_f_manual = 0.99, z_b_manual = 0.995, molar_mass_manual = 16.83,
-    k_manual =1.3 
+    p,                                  # Gauge Pressure of flowing gas 
+    t,                                  # Flow Temperature
+    d_p,                                # Differential Pressure
+    p_atm,                              # Atmospheric Pressure
+    p_b,                                # Base pressure for Volumetric Measurement
+    p_unit,                             # Units of Pressure ('psig', 'barg')
+    d_p_unit,                           # Differential Pressure Unit ('mbar', 'inwc')
+    t_unit,                             # Temperature Unit (Celsius, Fahrenheit)
+    t_base,                             # Base Temperature for Volumetric Measurement
+    pressure_tap,                       # Pressure sensor tapping position relative to orifice ('Upstream', 'Downstream')
+    length_unit,                        # Units of length ('in', 'mm') for orifice and pipe             
+    d0,                                 # Diameter of Orifice at reference temperature
+    D0,                                 # Diameter of pipe at reference temperature
+    d0_tb,                              # Reference Temperature for orifice diameter
+    D0_tb,                              # Reference Temperature for pipe diameter
+    alpha_d,                            # Temperature expansion coefficient for orifice
+    alpha_D,                            # Temperature expansion coefficient for pipe
+    mu,                                 # Viscosity of Gas
+                                        # Gas Composition
+    N2 =0, CO2 = 0, C1 = 0, C2 = 0, C3 = 0 , iC4= 0 , nC4 = 0 , iC5 = 0 , nC5 = 0 , nC6 = 0 , nC7= 0 , nC8= 0, nC9= 0, nC10= 0, H2 = 0, O2 = 0, CO = 0, H2O = 0, H2S = 0, He = 0, Ar = 0, 
+                                        ##############
+    gas_properties_given = False,       # Manual Entry of Gas Properties if True
+    z_f_manual = 0.99,                  # Manual entry for gas compressibility at flowing condition
+    z_b_manual = 0.995,                 # Manual entry of gas compressibility at base condition
+    molar_mass_manual = 16.83,          # Manual entry of molar mass at g/mol
+    k_manual =1.3                       # Manual entry of isentropic expansion coefficient 
 ):
     if p_unit == 'bar':
         p = p/PSI_TO_BAR
@@ -45,4 +68,4 @@ def calculate(
     
     result = aga3_calculate(p=p_u,t=t,d_p=d_p, p_atm=p_atm , p_b=p_b ,d_p_unit=d_p_unit, t_b=t_base,  d0=d0, D0=D0, d0_tb = d0_tb, D0_tb = D0_tb, alpha_d = alpha_d, alpha_D = alpha_D ,Z_f=z_f,Z_b=z_b, M_gas=molar_mass, k=k, mu=mu, length_unit=length_unit)
     
-    return result['volumetric_flow'], z_f, z_b, k
+    return result['volumetric_flow'], z_f, z_b, k, molar_mass
