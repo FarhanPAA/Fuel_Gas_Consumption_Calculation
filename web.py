@@ -356,7 +356,7 @@ with st.form("main_form", clear_on_submit=False):
                 # Row 1
                 r1c1, r1c2 = st.columns(2)
                 with r1c1:
-                    st.metric("Fuel Gas Flow", f"{gas_flow:.4f} MMSCF/D")
+                    st.metric("Fuel Gas Flow", f"{gas_flow:.6f} MMSCF/D")
                 with r1c2:
                     st.metric("Fuel Gas Flow", f"{m3_per_hour:,.2f} m³/h")
 
