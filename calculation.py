@@ -1,3 +1,7 @@
+'''
+Python version used 3.13.6
+'''
+
 from src.aga8 import calculate_gas_properties
 from src.aga3 import aga3_calculate
 PSI_TO_BAR = 0.06894757293178308

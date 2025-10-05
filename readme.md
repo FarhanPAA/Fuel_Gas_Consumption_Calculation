@@ -84,6 +84,17 @@ Returns a **5-tuple**:
 
 This documentation and any associated calculations are provided **as-is** for engineering reference. **Outputs are not guaranteed**; validate results against official AGA-3/AGA-8 standards, calibrated instruments, and site-specific procedures before use in operations or billing.
 
+## Streamlit Demo App
+
+A minimal **Streamlit** UI has been built **on top of this `calculate(...)` function** to help test inputs and visualize results.  
+You can wire your fields (pressure/temperature/DP/geometry/composition) to the function and display the returned tuple.
+
+**Quick start:**
+
+```bash
+pip install -r requirements.txt  # ensure streamlit and dependencies are installed
+streamlit run web.py             # app.py calls calculate(...) under the hood
+
 ## Minimal Usage Sketch (Python)
 
 ```python
