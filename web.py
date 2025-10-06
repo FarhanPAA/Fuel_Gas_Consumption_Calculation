@@ -2,8 +2,8 @@ import streamlit as st
 from calculation import calculate
 
 # ---------- Page setup (no emoji icon) ----------
-st.set_page_config(page_title="AGA-3 Fuel Gas Calculator", layout="wide")
-st.title("Fuel Gas Consumption Calculation with AGA-3")
+st.set_page_config(page_title="AGA3 Fuel Gas Calculator", layout="wide")
+st.title("Fuel Gas Consumption Calculation with AGA3")
 
 # Safer spacing at the very top to avoid title clipping
 st.markdown(
