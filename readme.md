@@ -1,8 +1,8 @@
-# AGA-3 Flow (with optional AGA-8 properties)
+# AGA3 Flow (with optional AGA8 properties)
 
-Returns base-condition volumetric flow via **AGA-3** detail method.
+Returns base-condition volumetric flow via **AGA3** detail method.
 
-If `gas_properties_given = False`, gas properties (`z_f`, `z_b`, `molar_mass`, `k`) are computed from composition via **AGA-8**.
+If `gas_properties_given = False`, gas properties (`z_f`, `z_b`, `molar_mass`, `k`) are computed from composition via **AGA8**.
 
 ---
 Python Version Used: 3.13.6
@@ -46,7 +46,7 @@ Unspecified components default to **0**:
 
 ### Manual Override for Gas Properties
 
-- `gas_properties_given` *(bool, default `False`)* — If **True**, bypass AGA-8 and use manual values.
+- `gas_properties_given` *(bool, default `False`)* — If **True**, bypass AGA8 and use manual values.
 - `z_f_manual`, `z_b_manual` *(float)* — Compressibility at flowing/base.
 - `molar_mass_manual` *(float, g/mol)* — Mixture molar mass.
 - `k_manual` *(float)* — Isentropic exponent (`k = C_p/C_v`).
@@ -77,13 +77,13 @@ Returns a **5-tuple**:
   - `alpha_d`/`alpha_D` are assumed per **°C/°F**, according to chosen temperature unit; if inputs are in °F, coefficients are converted automatically.
 
 - **Tap Location**
-  - With `pressure_tap = 'Downstream'`, the upstream static used for AGA-8/AGA-3 is **`p + d_p`** (after unit alignment).
+  - With `pressure_tap = 'Downstream'`, the upstream static used for AGA8/AGA3 is **`p + d_p`** (after unit alignment).
 
 ---
 
 ## Disclaimer
 
-This documentation and any associated calculations are provided **as-is** for engineering reference. **Outputs are not guaranteed**; validate results against official AGA-3/AGA-8 standards, calibrated instruments, and site-specific procedures before use in operations or billing.
+This documentation and any associated calculations are provided **as-is** for engineering reference. **Outputs are not guaranteed**; validate results against official AGA3/AGA8 standards, calibrated instruments, and site-specific procedures before use in operations or billing.
 
 ## Streamlit Demo App
 
@@ -112,7 +112,7 @@ vol_flow, zf, zb, k, M = calculate(
     d0=..., D0=..., d0_tb=..., D0_tb=...,
     alpha_d=..., alpha_D=...,
     mu=...,
-    # Option A: auto AGA-8 from composition
+    # Option A: auto AGA8 from composition
     N2=..., CO2=..., C1=..., C2=..., C3=..., iC4=..., nC4=...,  # etc.
     gas_properties_given=False
     # Option B: manual properties
